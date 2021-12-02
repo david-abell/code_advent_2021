@@ -13,6 +13,7 @@ jobs:
         with:
           userId: 1595107
           sessionCookie: ${{ secrets.AOC_SESSION }}
+          readmeLocation: ../README.md
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Update README stars
