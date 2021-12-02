@@ -1,6 +1,6 @@
 # My solutions for Eric Wastl's Advent of Code 2021
 
-solutions in progress
+<!--- advent_readme_stars table --->
 
 ## Acknowledgements
 
