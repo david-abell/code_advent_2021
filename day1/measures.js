@@ -2,11 +2,7 @@
 
 const fs = require("fs");
 
-const measures = fs
-  .readFileSync("input.txt", "utf8")
-  .replaceAll("\r", "")
-  .split("\n")
-  .map(Number);
+const measures = fs.readFileSync("input.txt", "utf8").split("\r\n").map(Number);
 
 const largerMeasures = measures.reduce((acc, item, index) => {
   if (item > measures[index - 1]) {

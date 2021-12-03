@@ -2,10 +2,7 @@
 
 const fs = require("fs");
 
-const positions = fs
-  .readFileSync("input.txt", "utf8")
-  .replaceAll("\r", "")
-  .split("\n");
+const positions = fs.readFileSync("input.txt", "utf8").split("\r\n");
 
 //   Puzzle One
 const destination = positions.reduce((acc, item) => {
