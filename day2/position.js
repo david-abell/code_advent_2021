@@ -1,8 +1,11 @@
 "use strict";
 
 const fs = require("fs");
+const path = require("path");
 
-const positions = fs.readFileSync("input.txt", "utf8").split("\r\n");
+const positions = fs
+  .readFileSync(path.resolve(__dirname, "input.txt"), "utf8")
+  .split("\r\n");
 
 //   Puzzle One
 const destination = positions.reduce((acc, item) => {
