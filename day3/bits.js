@@ -68,10 +68,11 @@ const bitsReducer = (arr, sortBit, keepBit) => {
 };
 
 const oxygenRating = bitsReducer(bits, 1);
-const co2Rating = bitsReducer(bits, 0);
 
-// const co2Rating = setTimeout(bitsReducer, 1000, bits, 0);
-// still exceeds call stack with this timeout
+// Reset counter variables
+counter, (reducerIndex = 0);
+
+const co2Rating = bitsReducer(bits, 0);
 
 console.log("Oxygen Rating:", oxygenRating);
 console.log("CO2 Rating:", co2Rating);
