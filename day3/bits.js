@@ -30,115 +30,49 @@ console.log(
   parseInt(gamma.join(""), 2) * parseInt(epsilon.join(""), 2)
 );
 
-let oxyRateBits = Object.assign(
-  {},
-  Array(bits[0].length).fill(null, 0, bits[0].length)
-);
-
 let counter = 0;
-let oxyIndex = 0;
-const oxyBitsReducer = (arr) => {
+let reducerIndex = 0;
+const bitsReducer = (arr, sortBit, keepBit) => {
   if (arr.length === 1) {
     return parseInt(arr, 2);
   }
 
   let tempArr = [];
+  let oneCount = null;
+
+  const createKeepBit = (item) => {
+    if (sortBit === 1) {
+      return item >= arr.length / 2 ? 1 : 0;
+    }
+    return item < arr.length / 2 ? 1 : 0;
+  };
 
   if (counter === 0 || counter % 2 === 0) {
     arr.forEach((item) => {
-      oxyRateBits[oxyIndex] += parseInt(item[oxyIndex]);
+      if (parseInt(item[reducerIndex]) === 1) oneCount++;
     });
     counter++;
-    return oxyBitsReducer(arr);
+    return bitsReducer(arr, sortBit, createKeepBit(oneCount));
   }
-  const isGreater = oxyRateBits[oxyIndex] / arr.length >= 0.5 ? 1 : 0;
 
   arr.forEach((item) => {
-    const curBit = parseInt(item[oxyIndex]);
-    if (isGreater === curBit) {
+    const curBit = parseInt(item[reducerIndex]);
+    if (keepBit === curBit) {
       tempArr.push(item);
     }
   });
   counter++;
-  oxyIndex++;
+  reducerIndex++;
 
-  return oxyBitsReducer(tempArr);
+  return bitsReducer(tempArr, sortBit);
 };
 
-let co2RateBits = Object.assign(
-  {},
-  Array(bits[0].length).fill(null, 0, bits[0].length)
-);
+const oxygenRating = bitsReducer(bits, 1);
+const co2Rating = bitsReducer(bits, 0);
 
-let co2Counter = 0;
-let co2Index = 0;
-const co2BitsReducer = (arr) => {
-  if (arr.length === 1) {
-    return parseInt(arr, 2);
-  }
+// const co2Rating = setTimeout(bitsReducer, 1000, bits, 0);
+// still exceeds call stack with this timeout
 
-  let tempArr = [];
-
-  if (co2Counter === 0 || co2Counter === 3) {
-    const tempOxy =
-      bits
-        .map((item) => {
-          return [...item][0];
-        })
-        .join("") /
-        arr.length >=
-      0.5
-        ? 1
-        : 0;
-    if (tempOxy === 1) {
-      arr.forEach((item) => {
-        if (parseInt(item[0]) === 0) {
-          co2RateBits[co2Index]++;
-        }
-      });
-    }
-    if (tempOxy === 0) {
-      arr.forEach((item) => {
-        if (parseInt(item[0]) === 1) {
-          co2RateBits[co2Index]++;
-        }
-      });
-    }
-
-    co2Counter++;
-    return co2BitsReducer(arr);
-  }
-
-  const isGreater =
-    (arr.length - co2RateBits[co2Index]) / arr.length >= 0.5 ? 1 : 0;
-
-  //   console.log("co2%2", arr, "co2Index", co2Index, "counter", co2Counter);
-  if (co2Counter % 2 === 0) {
-    arr.forEach((item) => {
-      if (parseInt(item[co2Index] === 0)) {
-        co2RateBits[co2Index]++;
-      }
-    });
-    co2Counter++;
-    return co2BitsReducer(arr);
-  }
-
-  arr.forEach((item) => {
-    const curBit = parseInt(item[co2Index]);
-    if (isGreater !== curBit) {
-      tempArr.push(item);
-    }
-  });
-  co2Counter++;
-  co2Index++;
-
-  return co2BitsReducer(tempArr);
-};
-
-console.log("OxyBits reduced:", oxyBitsReducer(bits));
-console.log("Co2Bits reduced:", co2BitsReducer(bits));
-
-// console.log(
-//   "Life support rating:",
-//   oxyBitsReducer(bits) * co2BitsReducer(bits)
-// );
+console.log("Oxygen Rating:", oxygenRating);
+console.log("CO2 Rating:", co2Rating);
+console.log("Life Support Rating:", oxygenRating * co2Rating);
