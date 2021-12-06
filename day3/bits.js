@@ -34,6 +34,8 @@ let counter = 0;
 let reducerIndex = 0;
 const bitsReducer = (arr, sortBit, keepBit) => {
   if (arr.length === 1) {
+    // Reset counter variables for next function run
+    counter, (reducerIndex = 0);
     return parseInt(arr, 2);
   }
 
@@ -68,9 +70,6 @@ const bitsReducer = (arr, sortBit, keepBit) => {
 };
 
 const oxygenRating = bitsReducer(bits, 1);
-
-// Reset counter variables
-counter, (reducerIndex = 0);
 
 const co2Rating = bitsReducer(bits, 0);
 
